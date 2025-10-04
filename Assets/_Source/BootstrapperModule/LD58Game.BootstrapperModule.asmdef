@@ -1,0 +1,14 @@
+{
+    "name": "LD58Game.BootstrapperModule",
+    "rootNamespace": "LD58Game.BootstrapperModule",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

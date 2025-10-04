@@ -1,0 +1,21 @@
+{
+    "name": "LD58Game.StatemachineModule",
+    "rootNamespace": "LD58Game.StatemachineModule",
+    "references": [
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:e545c9e2ac0cda94580785f9e5979fc4",
+        "GUID:4c4eb99e9e1314f4f8c4f800d453a6ab",
+        "GUID:e2e71bc2a7f03974786f07faad7b6c69",
+        "GUID:a5ff1b6a0b7e5444eb29a85549a3736a",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

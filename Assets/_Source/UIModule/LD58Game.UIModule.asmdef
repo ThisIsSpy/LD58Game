@@ -1,0 +1,17 @@
+{
+    "name": "LD58Game.UIModule",
+    "rootNamespace": "LD58Game.UIModule",
+    "references": [
+        "GUID:9052642afcf4631429555fc5221b4e38",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

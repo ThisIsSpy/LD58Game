@@ -25,6 +25,7 @@ namespace LD58Game.StatemachineModule
         [SerializeField] private AudioClip gunSoldSFX;
         [SerializeField] private AudioClip buttonPressSFX;
         private List<GunCard> gunCards;
+        private List<GunCard> soldGunCards;
 
         public InventoryScreenState(GameObject inventoryScreen)
         {
@@ -50,6 +51,7 @@ namespace LD58Game.StatemachineModule
         {
             yield return new WaitForSeconds(1f);
             gunCards = new();
+            soldGunCards = new();
             Debug.Log(gunInventory.Guns.Count);
             if(gunInventory.Guns.Count > 0)
             {
@@ -74,7 +76,14 @@ namespace LD58Game.StatemachineModule
             sfxPlayer.PlayOneShot(gunSoldSFX);
             gunCards[index].GunSold -= OnGunSold;
             gunCards[index].gameObject.SetActive(false);
+            soldGunCards.Add(gunCards[index]);
             gunInventory.Guns.RemoveAt(index);
+            gunCards.RemoveAt(index);
+            for (int i = gunInventory.Guns.Count - 1; i >= 0; i--)
+            {
+                if (gunCards[i] == null) continue;
+                gunCards[i].Index = i;
+            }
             if (gunInventory.Guns.Count == 0)
                 nothingText.gameObject.SetActive(true);
         }
@@ -86,7 +95,12 @@ namespace LD58Game.StatemachineModule
             {
                 GameObject.Destroy(gun.gameObject);
             }
+            foreach(var gun in soldGunCards)
+            {
+                GameObject.Destroy(gun.gameObject);
+            }
             gunCards.Clear();
+            soldGunCards.Clear();
             Owner.ChangeState<HomeScreenState>();
         }
     }

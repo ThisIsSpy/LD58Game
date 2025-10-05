@@ -15,7 +15,7 @@ namespace LD58Game.GunModule
         private MoneyCounter moneyCounter;
         private GunInventory gunInventory;
         private Button button;
-        private int index;
+        public int Index;
         public GunSO GunSO { get; private set; }
         public int Price { get; private set; }
 
@@ -28,7 +28,7 @@ namespace LD58Game.GunModule
             GunSO = gunSO;
             this.moneyCounter = moneyCounter;
             this.gunInventory = gunInventory;
-            this.index = index;
+            Index = index;
 
             gunImage.sprite = GunSO.Icon;
             gunName.text = GunSO.Name;
@@ -58,7 +58,7 @@ namespace LD58Game.GunModule
             button = GetComponent<Button>();
             this.moneyCounter = moneyCounter;
             button.onClick.AddListener(SellGun);
-            this.index = index;
+            this.Index = index;
             Price = (int)(gun.Price * 0.8f);
             gunImage.sprite = gun.Icon;
             gunName.text = gun.Name;
@@ -73,13 +73,13 @@ namespace LD58Game.GunModule
             moneyCounter.Money -= Price;
             Gun purchasedGun = new(GunSO);
             gunInventory.Guns.Add(purchasedGun);
-            GunPurchased?.Invoke(index);
+            GunPurchased?.Invoke(Index);
         }
 
         public void SellGun()
         {
             moneyCounter.Money += Price;
-            GunSold?.Invoke(index);
+            GunSold?.Invoke(Index);
         }
     }
 

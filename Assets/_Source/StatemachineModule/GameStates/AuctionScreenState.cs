@@ -101,7 +101,7 @@ namespace LD58Game.StatemachineModule
                 results = $"You paid ${gunCards[cardIndex].Price} for the gun. Its market price is ${gunCards[cardIndex].GunSO.Price}.";
                 if (gunCards[cardIndex].Price < gunCards[cardIndex].GunSO.Price)
                     results += " You underpaid, lucky you!";
-                else if (gunCards[cardIndex].Price < gunCards[cardIndex].GunSO.Price)
+                else if (gunCards[cardIndex].Price > gunCards[cardIndex].GunSO.Price)
                     results += " You overpaid, better luck next time.";
                 else
                     results += " You paid the market price.";

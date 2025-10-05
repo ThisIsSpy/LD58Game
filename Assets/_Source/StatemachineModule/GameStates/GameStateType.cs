@@ -8,5 +8,6 @@ namespace LD58Game.StatemachineModule
         ScrapyardScreenState = 1,
         AuctionScreenState = 2,
         GunStoreScreen = 3,
+        InventoryScreen = 4
     }
 }

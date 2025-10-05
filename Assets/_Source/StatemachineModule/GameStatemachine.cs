@@ -1,4 +1,6 @@
 using LD58Game.MiscModule;
+using LD58Game.MoneyCounterModule;
+using LD58Game.TimeCounterModule;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,24 +15,34 @@ namespace LD58Game.StatemachineModule
         private T _currentState;
         private readonly CoroutineRunner coroutineRunner;
         private readonly Image fadeInOutImage;
+        private readonly MoneyCounter moneyCounter;
+        private readonly TimeCounter timeCounter;
 
-        public GameStatemachine(HomeScreenState homeScreenState, ScrapyardScreenState scrapyardScreenState, AuctionScreenState auctionScreenState, GunStoreScreenState gunStoreScreenState,
-            CoroutineRunner coroutineRunner, Image fadeInOutImage)
+        public GameStatemachine(HomeScreenState homeScreenState, ScrapyardScreenState scrapyardScreenState, 
+            AuctionScreenState auctionScreenState, GunStoreScreenState gunStoreScreenState, 
+            InventoryScreenState inventoryScreenState, FinaleScreenState finaleScreenState,
+            CoroutineRunner coroutineRunner, Image fadeInOutImage, MoneyCounter moneyCounter, TimeCounter timeCounter)
         {
             _states = new()
             {
                 {typeof(HomeScreenState), homeScreenState as T},
                 {typeof(ScrapyardScreenState), scrapyardScreenState as T},
                 {typeof(AuctionScreenState), auctionScreenState as T},
-                {typeof(GunStoreScreenState), gunStoreScreenState as T}
+                {typeof(GunStoreScreenState), gunStoreScreenState as T},
+                {typeof(InventoryScreenState), inventoryScreenState as T},
+                {typeof(FinaleScreenState), finaleScreenState as T},
             };
             this.coroutineRunner = coroutineRunner;
             this.fadeInOutImage = fadeInOutImage;
+            this.moneyCounter = moneyCounter;
+            this.timeCounter = timeCounter;
 
             InitStates();
             scrapyardScreenState.Exit();
             auctionScreenState.Exit();
             gunStoreScreenState.Exit();
+            inventoryScreenState.Exit();
+            finaleScreenState.Exit();
             ChangeState<HomeScreenState>();
         }
 
@@ -78,6 +90,7 @@ namespace LD58Game.StatemachineModule
                     yield return new WaitForSeconds(0.075f);
                 }
                 fadeInOutImage.gameObject.SetActive(false);
+                moneyCounter.UpdateUI();
             }
             yield return null;
         }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328f0531696049147889907c034ace42, type: 3}
   m_Name: ComradeRifle
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: 
-  <Icon>k__BackingField: {fileID: 0}
-  <Price>k__BackingField: 0
-  <Value>k__BackingField: 0
+  <Name>k__BackingField: Comrade Rifle
+  <Icon>k__BackingField: {fileID: 21300000, guid: 4319ef8eeb182d74da23d81c4159e78a, type: 3}
+  <Price>k__BackingField: 500
+  <Value>k__BackingField: 500

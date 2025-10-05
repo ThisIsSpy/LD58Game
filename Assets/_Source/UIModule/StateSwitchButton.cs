@@ -10,11 +10,15 @@ namespace LD58Game.UIModule
         [SerializeField] private GameStateType gameStateType;
         private GameStatemachine<GameState> gameStatemachine;
         private Button button;
+        private AudioSource sfxSource;
+        private AudioClip buttonPressedSFX;
 
         [Inject]
-        public void Construct(GameStatemachine<GameState> gameStatemachine)
+        public void Construct(GameStatemachine<GameState> gameStatemachine, AudioSource sfxSource, AudioClip buttonPressedSFX)
         {
             this.gameStatemachine = gameStatemachine;
+            this.sfxSource = sfxSource;
+            this.buttonPressedSFX = buttonPressedSFX;
             button = GetComponent<Button>();
             button.onClick.AddListener(SwitchCanvas);
         }
@@ -26,6 +30,7 @@ namespace LD58Game.UIModule
 
         public void SwitchCanvas()
         {
+            sfxSource.PlayOneShot(buttonPressedSFX);
             switch (gameStateType)
             {
                 case GameStateType.HomeScreenState:
@@ -39,6 +44,9 @@ namespace LD58Game.UIModule
                     break;
                 case GameStateType.GunStoreScreen:
                     gameStatemachine.ChangeState<GunStoreScreenState>();
+                    break;
+                case GameStateType.InventoryScreen:
+                    gameStatemachine.ChangeState<InventoryScreenState>();
                     break;
             }
         }

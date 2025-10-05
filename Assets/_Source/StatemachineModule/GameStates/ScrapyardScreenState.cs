@@ -22,6 +22,8 @@ namespace LD58Game.StatemachineModule
         [SerializeField] private TextMeshProUGUI moneyRecievedText;
         [SerializeField] private TextMeshProUGUI rewardsRecievedText;
         [SerializeField] private Image gunRecievedIcon;
+        [SerializeField] private AudioSource sfxPlayer;
+        [SerializeField] private AudioClip gunAcquiredSFX;
 
         public ScrapyardScreenState(GameObject scrapyardScreenCanvas)
         {
@@ -62,6 +64,7 @@ namespace LD58Game.StatemachineModule
             gunRecievedIcon.sprite = gunRecievedSO.Icon;
 
             rewardsRecievedText.text = $"You have recieved the {gunRecievedSO.Name} and ${baseEarnings + additionalEarnings}!";
+            sfxPlayer.PlayOneShot(gunAcquiredSFX);
             moneyCounter.Money += baseEarnings + additionalEarnings;
             Gun newGun = new(gunRecievedSO);
             gunInventory.Guns.Add(newGun);
@@ -72,8 +75,10 @@ namespace LD58Game.StatemachineModule
 
             yield return new WaitForSeconds(4);
             timeCounter.Time--;
-            Owner.ChangeState<HomeScreenState>();
-
+            if(timeCounter.Time <= 0)
+                Owner.ChangeState<FinaleScreenState>();
+            else
+                Owner.ChangeState<HomeScreenState>();
         }
     }
 }

@@ -24,6 +24,9 @@ namespace LD58Game.StatemachineModule
         [SerializeField] private TimeCounter timeCounter;
         [SerializeField] private TextMeshProUGUI resultsUI;
         [SerializeField] private Button leaveAuctionButton;
+        [SerializeField] private AudioSource sfxPlayer;
+        [SerializeField] private AudioClip gunAcquiredSFX;
+        [SerializeField] private AudioClip gunNotAcquiredSFX;
         private List<GunCard> gunCards;
         
 
@@ -35,6 +38,7 @@ namespace LD58Game.StatemachineModule
         public override void Enter()
         {
             auctionScreenCanvas.SetActive(true);
+            leaveAuctionButton.gameObject.SetActive(true);
             moneyCounter.UpdateUI();
             leaveAuctionButton.onClick.AddListener(() => AuctionEnd(-1));
             coroutineRunner.RunCoroutine(AuctionCoroutine());
@@ -42,7 +46,9 @@ namespace LD58Game.StatemachineModule
 
         public override void Exit()
         {
+            leaveAuctionButton.gameObject.SetActive(true);
             leaveAuctionButton.onClick.RemoveAllListeners();
+            leaveAuctionButton.gameObject.SetActive(false);
             auctionScreenCanvas.SetActive(false);
         }
 
@@ -54,15 +60,15 @@ namespace LD58Game.StatemachineModule
             {
                 GunSO generatedGun;
                 int n = UnityEngine.Random.Range(1, 10);
-                if (n < 7)
+                if (n < 5)
                     generatedGun = gunGenerator.GenerateGun(GunValue.MidValue);
-                else if (n > 6 && n < 10)
+                else if (n > 4 && n < 10)
                     generatedGun = gunGenerator.GenerateGun(GunValue.HighValue);
                 else
                     generatedGun = gunGenerator.GenerateGun(GunValue.LowValue);
                 GameObject gunCardObject = GameObject.Instantiate(gunCardPrefab, Vector3.zero, Quaternion.identity, gunCardSpawnPoint.transform);
                 GunCard gunCard = gunCardObject.GetComponent<GunCard>();
-                gunCard.Construct(generatedGun, moneyCounter, gunInventory, i);
+                gunCard.Construct(generatedGun, moneyCounter, gunInventory, i, PriceCalculation.TwentyPercentRandom, true);
                 gunCards.Add(gunCard);
                 gunCard.GunPurchased += AuctionEnd;
             }
@@ -75,10 +81,9 @@ namespace LD58Game.StatemachineModule
 
         public IEnumerator AuctionEndCoroutine(int cardIndex)
         {
-            Debug.Log($"index is {cardIndex}, gunCards.Count is {gunCards.Count}");
+            leaveAuctionButton.gameObject.SetActive(false);
             for (int i = 0; i < 2; i++)
             {
-                Debug.Log($"{i} and {gunCards[i] == null}");
                 gunCards[i].GunPurchased -= AuctionEnd;
                 if (i != cardIndex)
                 {
@@ -87,7 +92,10 @@ namespace LD58Game.StatemachineModule
             }
             string results = string.Empty;
             if (cardIndex < 0)
+            {
                 results = "Seems like you didn't get anything today. Better luck next time!";
+                sfxPlayer.PlayOneShot(gunNotAcquiredSFX);
+            }
             else
             {
                 results = $"You paid ${gunCards[cardIndex].Price} for the gun. Its market price is ${gunCards[cardIndex].GunSO.Price}.";
@@ -97,6 +105,7 @@ namespace LD58Game.StatemachineModule
                     results += " You overpaid, better luck next time.";
                 else
                     results += " You paid the market price.";
+                sfxPlayer.PlayOneShot(gunAcquiredSFX);
 
             }
             resultsUI.text = results;
@@ -108,8 +117,10 @@ namespace LD58Game.StatemachineModule
             gunCards.Clear();
             resultsUI.text = string.Empty;
             timeCounter.Time--;
-            Debug.Log(gunCards.Count);
-            Owner.ChangeState<HomeScreenState>();
+            if (timeCounter.Time <= 0)
+                Owner.ChangeState<FinaleScreenState>();
+            else
+                Owner.ChangeState<HomeScreenState>();
         }
     }
 }

@@ -27,6 +27,7 @@ namespace LD58Game.MoneyCounterModule
         {
             counterUIList = uiHolder.CounterUIList;
             Money = startingMoney;
+            UpdateUI();
         }
 
         public void UpdateUI()

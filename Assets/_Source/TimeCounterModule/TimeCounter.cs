@@ -8,9 +8,10 @@ namespace LD58Game.TimeCounterModule
     {
         private TextMeshProUGUI counterUI;
         private int time;
-        private int initialTime;
+        [SerializeField] private int initialTime;
 
         public int TimePassed { get { return initialTime - time; } }
+        public bool HasBeenSetUp { get; private set; }
 
         public int Time
         {
@@ -22,12 +23,18 @@ namespace LD58Game.TimeCounterModule
             }
         }
 
+        void Start()
+        {
+            HasBeenSetUp = false;
+        }
+
         [Inject]
         public void Construct(TextMeshProUGUI counterUI)
         {
             this.counterUI = counterUI;
-            initialTime = PlayerPrefs.GetInt("time", 10);
+            //initialTime = PlayerPrefs.GetInt("time", 10);
             Time = initialTime;
+            HasBeenSetUp = true;
         }
     }
 }

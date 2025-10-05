@@ -10,11 +10,11 @@ namespace LD58Game.UIModule
         [SerializeField] private List<StateSwitchButton> buttons;
 
         [Inject]
-        public void Construct(GameStatemachine<GameState> gameStatemachine)
+        public void Construct(GameStatemachine<GameState> gameStatemachine, AudioSource sfxSource, AudioClip buttonPressedSFX)
         {
             foreach(StateSwitchButton button in buttons)
             {
-                button.Construct(gameStatemachine);
+                button.Construct(gameStatemachine, sfxSource, buttonPressedSFX);
             }
         }
     }
